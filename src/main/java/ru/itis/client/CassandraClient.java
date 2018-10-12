@@ -24,6 +24,10 @@ public class CassandraClient {
         matchRepository.dropTable();
         matchRepository.createTable();
 
+        MatchViewsRepository matchViewsRepository = new MatchViewsRepository(session);
+        matchViewsRepository.dropTable();
+        matchViewsRepository.createTable();
+
         for (int i = 1; i <= 10; i++) {
             List<Pick> picks = new ArrayList<>();
             for (int j = 0; j < 10; j++) {
@@ -52,6 +56,8 @@ public class CassandraClient {
                     .picks(picks)
                     .build();
             matchRepository.insert(match);
+
+            matchViewsRepository.update(match.getMatchId());
         }
 
         Match match = matchRepository.getMatchById(2);
