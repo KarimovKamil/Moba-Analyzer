@@ -63,7 +63,8 @@ public class CassandraClient {
         Match match = matchRepository.getMatchById(2);
         System.out.println(match.getAverageRating());
 
-        System.out.println(matchRepository.getMatchById(10).getMatchDuration());
+        List<Match> matches = matchRepository.getAllMatches();
+        System.out.println(matches.size());
 
         connector.close();
     }

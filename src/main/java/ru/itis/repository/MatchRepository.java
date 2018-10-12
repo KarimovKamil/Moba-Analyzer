@@ -1,9 +1,14 @@
 package ru.itis.repository;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.itis.models.Match;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MatchRepository {
     private static final String TABLE_NAME = "match";
@@ -57,11 +62,35 @@ public class MatchRepository {
                 .append("SELECT * FROM ").append(TABLE_NAME)
                 .append(" WHERE match_id = ").append(matchId).append(";");
 
-        String row = session.execute(sb.toString()).one().toString();
-        row = row.substring(row.indexOf(',') + 3, row.lastIndexOf(']'));
-        row = "{\"matchId\":" + matchId + ", " + row;
+        Row row = session.execute(sb.toString()).one();
+        StringBuilder json = new StringBuilder()
+                .append("{\"matchId\":")
+                .append(row.getLong("match_id"))
+                .append(", ")
+                .append(row.getString("data").substring(1));
 
-        Match match = gson.fromJson(row, Match.class);
+        Match match = gson.fromJson(json.toString(), Match.class);
         return match;
+    }
+
+    public List<Match> getAllMatches() {
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT * FROM ").append(TABLE_NAME).append(";");
+
+        List<Match> matches = new ArrayList<>();
+
+        ResultSet rs = session.execute(sb.toString());
+        for (Row row : rs) {
+            StringBuilder json = new StringBuilder()
+                    .append("{\"matchId\":")
+                    .append(row.getLong("match_id"))
+                    .append(", ")
+                    .append(row.getString("data").substring(1));
+
+            Match match = gson.fromJson(json.toString(), Match.class);
+            matches.add(match);
+        }
+
+        return matches;
     }
 }
