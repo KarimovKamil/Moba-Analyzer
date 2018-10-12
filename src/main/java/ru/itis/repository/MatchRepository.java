@@ -50,7 +50,8 @@ public class MatchRepository {
 
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO ")
-                .append(TABLE_NAME).append(" (match_id, data) ")
+                .append(TABLE_NAME)
+                .append(" (match_id, data) ")
                 .append("VALUES (").append(match.getMatchId()).append(", '")
                 .append(json).append("');");
 
