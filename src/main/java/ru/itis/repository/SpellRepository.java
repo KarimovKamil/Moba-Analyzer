@@ -6,8 +6,9 @@ import ru.itis.models.Spell;
 
 public class SpellRepository {
     private static final String TABLE_NAME = "spell";
-    private static final String INSERT = "INSERT INTO " + TABLE_NAME + " (spell_name, " +
-            "description, hero_name) VALUES (?, ?, ?);";
+    private static final String INSERT = "INSERT INTO " + TABLE_NAME +
+            " (spell_name, description, hero_name) " +
+            "VALUES (?, ?, ?);";
 
     private Session session;
 
@@ -39,7 +40,8 @@ public class SpellRepository {
     public void insert(Spell spell) {
         PreparedStatement preparedStatement = session.prepare(INSERT);
 
-        session.execute(preparedStatement.bind(spell.getSpellName(),
+        session.execute(preparedStatement.bind(
+                spell.getSpellName(),
                 spell.getDescription(),
                 spell.getHeroName()));
     }

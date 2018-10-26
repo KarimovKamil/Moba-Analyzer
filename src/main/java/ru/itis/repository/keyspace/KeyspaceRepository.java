@@ -1,4 +1,4 @@
-package ru.itis.repository;
+package ru.itis.repository.keyspace;
 
 import com.datastax.driver.core.Session;
 

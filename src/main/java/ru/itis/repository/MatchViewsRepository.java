@@ -5,8 +5,8 @@ import com.datastax.driver.core.Session;
 
 public class MatchViewsRepository {
     private static final String TABLE_NAME = "match_views_count";
-    private static final String UPDATE = "UPDATE " + TABLE_NAME + " SET " +
-            "match_view_count = match_view_count + 1 WHERE match_id = ?;";
+    private static final String UPDATE = "UPDATE " + TABLE_NAME +
+            " SET match_view_count = match_view_count + 1 WHERE match_id = ?;";
 
     private Session session;
 

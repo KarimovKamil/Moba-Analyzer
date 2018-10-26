@@ -6,9 +6,10 @@ import ru.itis.models.Hero;
 
 public class HeroRepository {
     private static final String TABLE_NAME = "hero";
-    private static final String INSERT = "INSERT INTO " + TABLE_NAME + " (hero_name, strength, agility, " +
-            "intelligence, min_power, max_power, attack_speed, attack_range, movement_speed, health, " +
-            "mana, health_regen, mana_regen, armor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO " + TABLE_NAME +
+            " (hero_name, strength, agility, intelligence, min_power, max_power, attack_speed, attack_range, " +
+            "movement_speed, health, mana, health_regen, mana_regen, armor) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private Session session;
 
@@ -51,7 +52,8 @@ public class HeroRepository {
     public void insert(Hero hero) {
         PreparedStatement preparedStatement = session.prepare(INSERT);
 
-        session.execute(preparedStatement.bind(hero.getHeroName(),
+        session.execute(preparedStatement.bind(
+                hero.getHeroName(),
                 hero.getStrength(),
                 hero.getAgility(),
                 hero.getIntelligence(),

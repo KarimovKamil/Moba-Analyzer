@@ -6,8 +6,9 @@ import ru.itis.models.Player;
 
 public class PlayerRepository {
     private static final String TABLE_NAME = "player";
-    private static final String INSERT = "INSERT INTO " + TABLE_NAME + " (player_id, player_nickname, " +
-            "player_status, player_rating, player_min_rating, player_max_rating, hours_played) " +
+    private static final String INSERT = "INSERT INTO " + TABLE_NAME +
+            " (player_id, player_nickname, player_status, player_rating, " +
+            "player_min_rating, player_max_rating, hours_played) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     private Session session;
@@ -44,7 +45,8 @@ public class PlayerRepository {
     public void insert(Player player) {
         PreparedStatement preparedStatement = session.prepare(INSERT);
 
-        session.execute(preparedStatement.bind(player.getPlayerId(),
+        session.execute(preparedStatement.bind(
+                player.getPlayerId(),
                 player.getPlayerNickname(),
                 player.getPlayerStatus(),
                 player.getPlayerRating(),
