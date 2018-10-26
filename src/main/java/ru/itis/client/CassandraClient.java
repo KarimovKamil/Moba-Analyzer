@@ -26,10 +26,8 @@ public class CassandraClient {
         keyspaceRepository.useKeyspace("testks");
 
         MatchRepository matchRepository = new MatchRepository(session);
-        matchRepository.dropTable();
-        matchRepository.createTable();
 
-        int matchesCount = 30;
+        int matchesCount = 100000;
         for (int i = 1; i <= matchesCount; i++) {
             List<Pick> picks = new ArrayList<>();
             for (int j = 0; j < 10; j++) {
@@ -60,7 +58,7 @@ public class CassandraClient {
             matchRepository.insert(match);
         }
 
-        Match match = matchRepository.getMatchById(2);
+        Match match = matchRepository.getMatchById(1);
         System.out.println(gson.toJson(match));
 
         for (int i = 0; i < 1000; i++) {
@@ -68,10 +66,7 @@ public class CassandraClient {
         }
 
         List<Match> matches = matchRepository.getAllMatches();
-        System.out.println("size = " + matches.size());
-        for (Match m : matches) {
-            System.out.println("match id = " + m.getMatchId());
-        }
+        System.out.println("Size = " + matches.size());
 
         connector.close();
     }

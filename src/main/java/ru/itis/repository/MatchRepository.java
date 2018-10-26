@@ -52,16 +52,35 @@ public class MatchRepository {
                 .append("total_damage_taken int, ")
                 .append("wards_placed int, ")
                 .append("team_gold int, ")
-                .append("PRIMARY KEY(").append("match_id, player_id, hero_name").append(")")
+                .append("PRIMARY KEY(").append("match_id, player_id").append(")")
                 .append(");");
+
+        session.execute(sb.toString());
+        createMaterializedView();
+    }
+
+    public void dropTable() {
+        dropMaterializedView();
+        StringBuilder sb = new StringBuilder()
+                .append("DROP TABLE IF EXISTS ")
+                .append(TABLE_NAME).append(";");
 
         session.execute(sb.toString());
     }
 
-    public void dropTable() {
+    private void createMaterializedView() {
         StringBuilder sb = new StringBuilder()
-                .append("DROP TABLE IF EXISTS ")
-                .append(TABLE_NAME).append(";");
+                .append("CREATE MATERIALIZED VIEW IF NOT EXISTS matches_by_player ")
+                .append("AS SELECT * FROM match ")
+                .append("WHERE player_id IS NOT NULL AND match_id IS NOT NULL ")
+                .append("PRIMARY KEY (player_id, match_id);");
+
+        session.execute(sb.toString());
+    }
+
+    private void dropMaterializedView() {
+        StringBuilder sb = new StringBuilder()
+                .append("DROP MATERIALIZED VIEW IF EXISTS matches_by_player;");
 
         session.execute(sb.toString());
     }
