@@ -1,8 +1,8 @@
-package ru.itis.repository;
+package ru.itis.cassandra.repository.table;
 
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
-import ru.itis.models.Hero;
+import ru.itis.cassandra.models.Hero;
 
 public class HeroRepository {
     private static final String TABLE_NAME = "hero";

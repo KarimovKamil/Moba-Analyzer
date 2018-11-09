@@ -1,4 +1,4 @@
-package ru.itis.repository.keyspace;
+package ru.itis.cassandra.repository.keyspace;
 
 import com.datastax.driver.core.Session;
 

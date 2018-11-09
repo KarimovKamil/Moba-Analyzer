@@ -1,33 +1,26 @@
-package ru.itis.client;
+package ru.itis.neo4j.client;
 
-import com.datastax.driver.core.Session;
-import com.google.gson.Gson;
-import ru.itis.connector.CassandraConnector;
-import ru.itis.models.Match;
-import ru.itis.models.Pick;
-import ru.itis.repository.MatchRepository;
-import ru.itis.repository.keyspace.KeyspaceRepository;
+import ru.itis.cassandra.models.Match;
+import ru.itis.cassandra.models.Pick;
+import ru.itis.neo4j.connector.Connector;
+import ru.itis.neo4j.repository.MatchRepository;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class CassandraClient {
+public class Client {
     public static void main(String[] args) {
-        Gson gson = new Gson();
         Random random = new Random();
 
-        CassandraConnector connector = new CassandraConnector("127.0.0.1", null);
+        Connector connector = new Connector("neo4j", "1428");
+        Connection connection = connector.getConnection();
 
-        Session session = connector.getSession();
+        MatchRepository matchRepository = new MatchRepository(connection);
 
-        KeyspaceRepository keyspaceRepository = new KeyspaceRepository(session);
-        keyspaceRepository.useKeyspace("testks");
-
-        MatchRepository matchRepository = new MatchRepository(session);
-
-        int matchesCount = 100000;
+        int matchesCount = 3;
         for (int i = 1; i <= matchesCount; i++) {
             List<Pick> picks = new ArrayList<>();
             for (int j = 0; j < 10; j++) {
@@ -40,9 +33,9 @@ public class CassandraClient {
                         .kills(random.nextInt(60))
                         .assists(random.nextInt(60))
                         .deaths(random.nextInt(60))
-                        .totalDamageTaken(random.nextInt(100000))
+                        .totalDamage(random.nextInt(100000))
                         .totalHeal(random.nextInt(50000))
-                        .totalDamageTaken(100000)
+                        .totalDamageTaken(random.nextInt(100000))
                         .wardsPlaced(random.nextInt(100))
                         .teamGold(random.nextInt(10000))
                         .build();
@@ -57,17 +50,5 @@ public class CassandraClient {
                     .build();
             matchRepository.insert(match);
         }
-
-        Match match = matchRepository.getMatchById(1);
-        System.out.println(gson.toJson(match));
-
-        for (int i = 0; i < 1000; i++) {
-            matchRepository.getMatchById(random.nextInt(matchesCount) + 1);
-        }
-
-        List<Match> matches = matchRepository.getAllMatches();
-        System.out.println("Size = " + matches.size());
-
-        connector.close();
     }
 }

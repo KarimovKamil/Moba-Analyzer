@@ -1,8 +1,8 @@
-package ru.itis.repository;
+package ru.itis.cassandra.repository.table;
 
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
-import ru.itis.models.Spell;
+import ru.itis.cassandra.models.Spell;
 
 public class SpellRepository {
     private static final String TABLE_NAME = "spell";

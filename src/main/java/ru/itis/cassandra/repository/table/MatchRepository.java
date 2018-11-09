@@ -1,11 +1,11 @@
-package ru.itis.repository;
+package ru.itis.cassandra.repository.table;
 
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import ru.itis.models.Match;
-import ru.itis.models.Pick;
+import ru.itis.cassandra.models.Match;
+import ru.itis.cassandra.models.Pick;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package ru.itis.client;
+package ru.itis.cassandra.client;
 
 import com.datastax.driver.core.Session;
-import ru.itis.connector.CassandraConnector;
-import ru.itis.repository.*;
-import ru.itis.repository.keyspace.KeyspaceRepository;
+import ru.itis.cassandra.connector.CassandraConnector;
+import ru.itis.cassandra.repository.keyspace.KeyspaceRepository;
+import ru.itis.cassandra.repository.table.*;
 
 public class DropBase {
     public static void main(String[] args) {

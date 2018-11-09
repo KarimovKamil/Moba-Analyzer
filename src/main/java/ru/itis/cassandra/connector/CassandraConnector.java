@@ -1,4 +1,4 @@
-package ru.itis.connector;
+package ru.itis.cassandra.connector;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;

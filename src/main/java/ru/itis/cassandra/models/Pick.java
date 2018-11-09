@@ -1,4 +1,4 @@
-package ru.itis.models;
+package ru.itis.cassandra.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

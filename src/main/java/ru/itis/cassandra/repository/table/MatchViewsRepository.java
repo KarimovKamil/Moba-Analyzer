@@ -1,4 +1,4 @@
-package ru.itis.repository;
+package ru.itis.cassandra.repository.table;
 
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
