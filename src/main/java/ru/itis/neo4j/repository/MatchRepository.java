@@ -1,7 +1,8 @@
 package ru.itis.neo4j.repository;
 
-import ru.itis.cassandra.models.Match;
-import ru.itis.cassandra.models.Pick;
+
+import ru.itis.neo4j.models.Match;
+import ru.itis.neo4j.models.Pick;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,14 +11,13 @@ import java.sql.SQLException;
 public class MatchRepository {
     private static final String INSERT_MATCH = "CREATE (m:Match {" +
             "matchId: {1}, " +
-            "averageRating: {2}, " +
-            "startTime: {3}, " +
-            "matchDuration: {4}" +
+            "isDireWin: {2}, " +
+            "averageRating: {3}, " +
+            "startTime: {4}, " +
+            "matchDuration: {5}" +
             "});";
 
     private static final String INSERT_PICK = "MERGE (p:Pick {" +
-            "playerId: {1}, " +
-            "heroName: {2}, " +
             "netWorth: {3}, " +
             "GPM: {4}, " +
             "XPM: {5}, " +
@@ -28,10 +28,15 @@ public class MatchRepository {
             "totalHeal: {10}, " +
             "totalDamageTaken: {11}, " +
             "wardsPlaced: {12}, " +
-            "teamGold: {13}" +
+            "teamGold: {13}, " +
+            "isDire: {14}" +
             "}) " +
-            "MERGE (m {matchId: {14}}) " +
-            "MERGE (p)-[r:PLAYED]->(m);";
+            "MERGE (m {matchId: {15}}) " +
+            "MERGE (h {heroName: {2}}) " +
+            "MERGE (pl {playerId: {1}}) " +
+            "MERGE (p)-[rm:PLAYED]->(m) " +
+            "MERGE (p)-[rh:PICKED]->(h) " +
+            "MERGE (p)-[rpl:LINK]->(pl);";
 
     private Connection connection;
 
@@ -43,9 +48,10 @@ public class MatchRepository {
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT_MATCH);
             statement.setLong(1, match.getMatchId());
-            statement.setInt(2, match.getAverageRating());
-            statement.setLong(3, match.getStartTime());
-            statement.setLong(4, match.getMatchDuration());
+            statement.setBoolean(2, match.isDireWin());
+            statement.setInt(3, match.getAverageRating());
+            statement.setLong(4, match.getStartTime());
+            statement.setLong(5, match.getMatchDuration());
             statement.execute();
 
             for (Pick pick : match.getPicks()) {
@@ -63,7 +69,8 @@ public class MatchRepository {
                 pickStatement.setInt(11, pick.getTotalDamageTaken());
                 pickStatement.setInt(12, pick.getWardsPlaced());
                 pickStatement.setInt(13, pick.getTeamGold());
-                pickStatement.setLong(14, match.getMatchId());
+                pickStatement.setBoolean(14, pick.isDire());
+                pickStatement.setLong(15, match.getMatchId());
                 pickStatement.execute();
             }
         } catch (SQLException e) {

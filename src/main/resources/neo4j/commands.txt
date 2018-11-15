@@ -1,7 +1,10 @@
 MATCH (n)-[r]-() DELETE n, r;
-MATCH n DELETE n;
+MATCH (n) DELETE n;
 
 MATCH (n) RETURN n;
 
-MATCH (m:Match)<--(p:Pick {playerId: 343289304}) RETURN m; // Матчи по playerId
+MATCH (m:Match)<--(p:Pick)-->(pl:Player {playerId: 1}) RETURN m; // Матчи по playerId
 MATCH (p:Pick)-->(m:Match {matchId: 1}) RETURN p; // Пики по matchId
+MATCH (p:Pick)-->(pl:Player {playerId: 1}) RETURN p; // Пики по playerId
+
+MATCH (pl1:Player)<--(p1:Pick)-->(m:Match)<--(p:Pick)-->(pl:Player {playerId: 1}) RETURN pl1;
