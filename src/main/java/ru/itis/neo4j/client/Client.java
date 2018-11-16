@@ -47,7 +47,7 @@ public class Client {
         }
 
         PlayerRepository playerRepository = new PlayerRepository(connection);
-        String[] nicknames = {"Halva", "KHR3b", "flood", "Moseszzzz", "Preysme", "domo1", "Preysme", "Manymuch",
+        String[] nicknames = {"Halva", "KHR3b", "flood", "Moseszzzz", "9pasha", "domo1", "Preysme", "Manymuch",
                 "Yarilo", "Klevanso", "Molochko", "Tatarin", "Hahabuka", "Alexander", "Nijniy_slesh", "Ya_Ajdar",
                 "Myr4alka", "qDog", "Solo", "XBOCT", "Ramzes666", "Lil", "Dendi", "S4", "EvilArthas", "ubicanoobov",
                 "Ninja", "CheatBanned", "IllidanSTR", "AlohaDance"};
@@ -68,7 +68,7 @@ public class Client {
 
         Boolean[] booleans = {true, true, true, true, true, false, false, false, false, false};
         MatchRepository matchRepository = new MatchRepository(connection);
-        int matchesCount = 1;
+        int matchesCount = 10;
         for (int i = 1; i <= matchesCount; i++) {
             shuffle(players);
             shuffle(heroArray);
